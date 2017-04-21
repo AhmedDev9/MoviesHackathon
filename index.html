@@ -2,21 +2,113 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cameron Pittman: Portfolio</title>
+    <title>Movies</title>
 
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+
+
+     <script async src="js/main.js"></script>
+  </head>
+
+  <body>
+
+
+    <h1>Movies</h1>
+<div id="container">
+
+</div>
+
+<div id="movieDetails">
+</div>
 
     <script>
 
     </script>
-    <script async src="js/main.js"></script>
-  </head>
 
-  <body>
-    <header>
-    </header>
 
-    <div class="container">
-</div>
+
+    <script language="javascript">
+    var movies;
+    $("#movieDetails").hide();
+
+    var n=3;//take grid column value as you want
+    var j=0;
+
+    for(var i = 1; i < 8; i++) {
+        //$("#container").append('<div class="row">');
+
+        for(k = 0; k < n; k++) {
+          $("#container").append('<div id="mov'+ (++j)+'"class="col-md-6 movSection"></div>');
+           $('#mov'+j).append('<img id="movPoster'+ (j)+'" onclick="showDetails('+j+')"></img>');
+
+          $('#mov'+j).append('<div id="movTitle'+ (j)+'"></div><div id="movOverview'+ (j)+'"></div><div id="movReleaseDate'+ (j)+'"></div><div id="movRate'+ (j)+'"></div>');
+
+          //  $("#container").append('</div>');
+        }
+
+        //$("#container").append('</div>');
+    }
+function showDetails(movieNumber) {
+
+$("#container").hide( "slow");
+$("#movieDetails").show();
+
+$("#movieDetails").append('<div id="movDetails" class="col-md-12 movSection"></div>');
+$('#movDetails').html('<img id="movDetailsPoster"></img>');
+
+console.log(movies);
+console.log(movieNumber-1);
+console.log(movies["results"][movieNumber-1]);
+
+$('#movDetailsPoster').attr("src"," http://image.tmdb.org/t/p/w185/"+movies["results"][movieNumber]["poster_path"]);
+
+
+
+};
+    $(document).ready(function() {
+      var n=3;//take grid column value as you want
+      var j=1;
+
+        var url = 'https://api.themoviedb.org/3/movie/popular',
+            key = '?api_key=bab007b9a6288af1455b8cee1f4f9d36';
+
+            $.ajax({
+                type: 'GET',
+                url: url  + key,
+                async: false,
+                jsonpCallback: 'testing',
+                contentType: 'application/json',
+                dataType: 'jsonp',
+                success: function(json) {
+                  movies=json;
+                  console.log(json);
+
+                  for(var i = 0;i<json["results"].length;i++){
+
+
+
+                    $('#movTitle'+i).html(json["results"][i]["title"]);
+                    //$('#movOverview'+i).html(json["results"][i]["overview"]);
+                    //$('#movReleaseDate'+i).html(json["results"][i]["release_date"]);
+                    $('#movRate'+i).html(json["results"][i]["vote_average"]+"/10");
+
+
+
+                    $('#movPoster'+i).attr("src"," http://image.tmdb.org/t/p/w185/"+json["results"][i]["poster_path"]);
+
+                  }
+                },
+                error: function(e) {
+                    console.log(e.message);
+                }
+            });
+
+    });
+
+    </script>
     </body>
     </html>

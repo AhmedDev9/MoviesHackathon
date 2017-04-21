@@ -1,0 +1,10 @@
+.movSection{
+  padding: 20px;
+}
+#container{
+  margin:auto;
+  text-align:center;
+}
+img{
+  cursor: pointer;
+}
